@@ -1,0 +1,96 @@
+html, body, #root{
+  height: 100%;
+  width: 100%;
+  cursor: default;
+}
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Montserrat", "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: white;
+}
+
+#bg{
+  z-index: -1;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  background: rgb(14,27,27);
+  background: linear-gradient(318deg, rgba(14,27,27,1) 0%, rgba(45,88,89,1) 100%);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.wrapper{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loginButton{
+  font-family: inherit;
+  font-size: 15px;
+  border: none;
+  border-radius: 7px;
+  background-color: #1db954;
+  color: white;
+  height: 50px;
+  width: 200px;
+  cursor: pointer;
+  outline:none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.loginButton:hover{
+  background-color: #2ad666;
+  transition: background-color, 0.5s;
+}
+
+
+.mainTitle{
+  font-family: 'Damion', cursive;
+  font-size: 100px;
+}
+
+#tracks{
+  margin: auto;
+}
+
+.track{
+  max-width: 250px;
+  display: flex;
+  align-items: center;
+  height: 80px;
+  margin: auto;
+}
+
+.trackIndex{
+  font-size: 50px;
+  font-weight: bold;
+}
+
+.trackDetails{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 8px;
+}
+
+.artist{
+  font-size: 14px;
+}
+
+.trackName{
+  font-size: 20px;
+  font-weight: bold;
+}
