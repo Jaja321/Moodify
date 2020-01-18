@@ -14,12 +14,11 @@ class Home extends React.Component {
 
     login() {
         const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
-        console.log(process.env.REACT_APP_CLIENT_ID);
         let redirectUri;
         if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
             redirectUri = 'http://localhost:3000/mood';
         } else {
-            redirectUri = 'https://suspicious-brown-562638.netlify.com/mood';
+            redirectUri = 'https://moodify.benmiz.com/mood';
         }
         const scope = 'user-read-recently-played';
         const authUri = 'https://accounts.spotify.com/authorize?client_id=' + CLIENT_ID + '&response_type=token&redirect_uri=' + redirectUri + '&scope=' + scope;
