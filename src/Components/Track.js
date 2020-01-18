@@ -9,11 +9,11 @@ class Track extends React.Component {
 
     render(){
         return (    
-            <div class="track" onMouseEnter={() => this.setState({hover: true})} onMouseLeave={() => this.setState({hover: false})}>
-                {this.state.hover ? <Emoticon valence={this.props.valence} size={50}/> : <div class="trackIndex">{this.props.idx}</div>}
-                <div class="trackDetails">
-                    <div class="artist">{this.props.artist}</div>
-                    <div class="trackName">{this.formatTrackName(this.props.trackName)}</div>
+            <div className="track" onMouseEnter={() => this.setState({hover: true})} onMouseLeave={() => this.setState({hover: false})}>
+                {this.state.hover ? <Emoticon valence={this.props.valence} size={50}/> : <div className="trackIndex">{this.props.idx}</div>}
+                <div className="trackDetails">
+                    <div className="artist">{this.props.artist}</div>
+                    <div className="trackName">{this.formatTrackName(this.props.trackName)}</div>
                 </div>
             </div>
         );
