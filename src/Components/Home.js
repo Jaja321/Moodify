@@ -5,9 +5,7 @@ class Home extends React.Component {
         return (
             <div className="wrapper">
                 <h1 className="mainTitle">Moodify</h1>
-                <button className="loginButton" onClick={() => this.login()}>
-                Connect with Spotify
-                </button>
+                <button className="loginButton" onClick={() => this.login()} />
             </div>
         );
     }

@@ -56,6 +56,13 @@ code {
   transition: background-color, 0.5s;
 }
 
+.loginButton::before{
+  content: "Analyze my mood"
+}
+
+.loginButton:hover::before{
+  content: "Connect with Spotify"
+}
 
 .mainTitle{
   font-family: 'Damion', cursive;
