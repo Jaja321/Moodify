@@ -3,6 +3,7 @@ html, body, #root{
   width: 100%;
   cursor: default;
 }
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Montserrat", "Segoe UI", "Roboto", "Oxygen",
@@ -100,4 +101,18 @@ code {
 .trackName{
   font-size: 20px;
   font-weight: bold;
+}
+
+h2 {
+  margin: 1rem;
+  font-family: inherit;
+  text-align: center;
+}
+
+.footer {
+  margin: 1rem;
+}
+
+.resultEmoticon{
+  margin-bottom: 1rem;
 }
