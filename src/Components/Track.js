@@ -1,33 +1,33 @@
-import React from 'react';
-import Emoticon from './Emoticon';
+import React, { useState } from "react";
+import Emoticon from "./Emoticon";
 
-class Track extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {hover: false};
-    }
+const formatTrackName = (trackName) => {
+  const maxLength = 35;
+  if (trackName.length > maxLength) {
+    return trackName.substring(0, maxLength - 3) + "...";
+  } else {
+    return trackName;
+  }
+};
 
-    render(){
-        return (    
-            <div className="track" onMouseEnter={() => this.setState({hover: true})} onMouseLeave={() => this.setState({hover: false})}>
-                {this.state.hover ? <Emoticon valence={this.props.valence} size={50}/> : <div className="trackIndex">{this.props.idx}</div>}
-                <div className="trackDetails">
-                    <div className="artist">{this.props.artist}</div>
-                    <div className="trackName">{this.formatTrackName(this.props.trackName)}</div>
-                </div>
-            </div>
-        );
-    }
+export default ({ idx, trackData }) => {
+  const [hover, setHover] = useState(false);
 
-    formatTrackName(trackName){
-        const maxLength = 35;
-        if(trackName.length > maxLength){
-            return trackName.substring(0, maxLength - 3) + "...";
-        }else{
-            return trackName;
-        }
-    }
-    
-}
-
-export default Track;
+  return (
+    <div
+      className="track"
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+    >
+      {hover ? (
+        <Emoticon valence={trackData.valence} size={50} />
+      ) : (
+        <div className="trackIndex">{idx}</div>
+      )}
+      <div className="trackDetails">
+        <div className="artist">{trackData.artists[0].name}</div>
+        <div className="trackName">{formatTrackName(trackData.name)}</div>
+      </div>
+    </div>
+  );
+};
