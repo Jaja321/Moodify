@@ -38,5 +38,25 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyAhnIp6vOA3Gn6u-B7_2YMD3D2G0PMuSKo",
+        authDomain: "moodify-c2a16.firebaseapp.com",
+        databaseURL: "https://moodify-c2a16.firebaseio.com",
+        projectId: "moodify-c2a16",
+        storageBucket: "moodify-c2a16.appspot.com",
+        messagingSenderId: "478557079424",
+        appId: "1:478557079424:web:2e2eadbc1408fb34192365"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
   </body>
 </html>
