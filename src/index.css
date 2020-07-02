@@ -77,9 +77,7 @@ code {
 .track{
   max-width: 250px;
   display: flex;
-  align-items: center;
   height: 80px;
-  margin: auto;
 }
 
 .trackIndex{
