@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import Track from './Track';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,54 +6,30 @@ import { getTracks } from '../actions';
 import MoodSelector from './MoodSelector';
 import { setAccessToken } from '../reducer';
 import GenreSelector from './GenreSelector';
+import PlaylistButton from './PlaylistButton';
 const qs = require('query-string');
 
-const TracksWrapper = styled.div`
-  height: 450px;
-  width: 400px;
+const Wrapper = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
+  align-items: center;
+`;
+
+const TracksWrapper = styled.div`
+  width: 90%;
+  max-width: 1200px;
+  display: grid;
+  justify-items: center;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 0.5rem;
+  min-width: 0;
 `;
 
 const NoGenreMessage = styled.div`
   margin-top: 3rem;
   font-size: 1.5rem;
 `;
-
-const PlaylistButton = styled.div`
-  margin-top: 1rem;
-  padding: 0.5rem;
-  border: solid 1px white;
-  border-radius: 5px;
-  cursor: pointer;
-`;
-
-const createPlaylist = (accessToken, tracks) => async () => {
-  const url = 'https://api.spotify.com/v1/users/vvjajavv/playlists';
-  const baseOptions = {
-    method: 'POST',
-    headers: {
-      Authorization: 'Bearer ' + accessToken,
-      'Content-Type': 'application/json',
-    }
-  };
-  const playlist = await fetch(url, {
-    ...baseOptions,
-    body: JSON.stringify({
-      name: 'My Moodify Playlist'
-    }),
-  }).then((res) => res.json());
-  const populatePlaylistUrl = `https://api.spotify.com/v1/playlists/${playlist.id}/tracks`;
-  await fetch(populatePlaylistUrl, {
-    ...baseOptions,
-    body: JSON.stringify({
-      uris: tracks.map(track => track.uri)
-    }),
-  }).then((res) => res.json());
-  const playlistLink = `https://open.spotify.com/playlist/${playlist.id}`;
-  window.open(playlistLink);
-};
 
 const getFittingTracks = (tracks, valence, energy) => {
   return tracks
@@ -72,6 +48,7 @@ export default ({ location }) => {
   const tracks = useSelector((state) => state.tracks);
   const selectedGenres = useSelector((state) => state.selectedGenres);
   const accessToken = useSelector((state) => state.accessToken);
+
   //const { valence, energy } = useSelector((state) => state.audioProperties);
 
   useEffect(() => {
@@ -85,26 +62,28 @@ export default ({ location }) => {
     //dispatch(getTracks());
   }, [dispatch, location]);
 
-  const topTracks = tracks.slice(0, 10);
+  const topTracks = tracks.slice(0, 12);
 
   //const fittingTracks = getFittingTracks(tracks, valence, energy);
 
   return (
-    <div className="wrapper">
+    <Wrapper>
       <h2>What's your mood?</h2>
       <MoodSelector />
       <GenreSelector />
 
       {selectedGenres.length > 0 ? (
-        <TracksWrapper>
-          {topTracks.map((trackData, i) => (
-            <Track key={'track' + (i + 1)} idx={i + 1} trackData={trackData} />
-          ))}
-        </TracksWrapper>
+        <>
+          <TracksWrapper>
+            {topTracks.map((trackData, i) => (
+              <Track key={'track' + (i + 1)} idx={i + 1} trackData={trackData} />
+            ))}
+          </TracksWrapper>
+          <PlaylistButton tracks={topTracks} />
+        </>
       ) : (
         <NoGenreMessage>Choose one or more genres</NoGenreMessage>
       )}
-      <PlaylistButton onClick={createPlaylist(accessToken, topTracks)}>Create a Playlist</PlaylistButton>
-    </div>
+    </Wrapper>
   );
 };
