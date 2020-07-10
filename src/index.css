@@ -74,30 +74,8 @@ code {
   margin: auto;
 }
 
-.track{
-  max-width: 250px;
-  display: flex;
-  height: 80px;
-}
-
 .trackIndex{
   font-size: 50px;
-  font-weight: bold;
-}
-
-.trackDetails{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-left: 8px;
-}
-
-.artist{
-  font-size: 14px;
-}
-
-.trackName{
-  font-size: 20px;
   font-weight: bold;
 }
 
