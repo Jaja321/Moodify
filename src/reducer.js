@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const setStoreVariable = (key) => (state, action) => {state[key] = action.payload};
+
 const mainSlice = createSlice({
   name: 'main',
   initialState: {
@@ -8,17 +10,19 @@ const mainSlice = createSlice({
     accessToken: null,
     audioProperties: {
       valence: 0.5,
-      energy: 0.5
-    }
+      energy: 0.5,
+    },
+    selectedGenres: []
   },
   reducers: {
-    setTracks: (state, action) => {state.tracks = action.payload},
-    setAccessToken: (state, action) => {state.accessToken = action.payload},
-    setLoading: (state, action) => {state.loading = action.payload},
-    setAudioProperties: (state, action) => {state.audioProperties = action.payload}
-  }
+    setTracks: setStoreVariable('tracks'),
+    setAccessToken: setStoreVariable('accessToken'),
+    setLoading: setStoreVariable('loading'),
+    setAudioProperties: setStoreVariable('audioProperties'),
+    setSelectedGenres: setStoreVariable('selectedGenres'),
+  },
 });
 
-export const { setTracks, setAccessToken, setLoading, setAudioProperties } = mainSlice.actions;
+export const { setTracks, setAccessToken, setLoading, setAudioProperties, setSelectedGenres } = mainSlice.actions;
 
 export default mainSlice.reducer;
