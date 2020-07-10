@@ -8,7 +8,7 @@ const login = () => {
   } else {
     redirectUri = "https://moodify.benmiz.com/mood";
   }
-  const scope = "user-read-recently-played,user-top-read";
+  const scope = "user-read-recently-played,user-top-read,playlist-modify-public";
   const authUri = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${redirectUri}&scope=${scope}`;
   window.location.replace(authUri);
 };
