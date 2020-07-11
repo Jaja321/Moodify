@@ -8,7 +8,9 @@ const timeRanges = ['short_term', 'medium_term', 'long_term'];
 const getHeaders = (accessToken) => ({ Authorization: 'Bearer ' + accessToken });
 
 const getRecommendationsUri = (audioProperties, selectedGenres) => {
-  const { energy, valence } = audioProperties;
+  let { energy, valence } = audioProperties;
+  energy = Math.max(0.25, energy);
+  valence = Math.max(0.25, valence);
   const minEnergy = Math.max(0, energy - 0.1);
   const maxEnergy = Math.min(1, energy + 0.1);
   const minValence = Math.max(0, valence - 0.1);
@@ -61,11 +63,16 @@ export const getRecommendations = () => async (dispatch, getState) => {
   }
   const headers = getHeaders(accessToken);
   dispatch(setLoading(true));
-  const recs = await fetch(getRecommendationsUri(audioProperties, selectedGenres), { headers }).then((response) => response.json());
+  const res = await fetch(getRecommendationsUri(audioProperties, selectedGenres), { headers }).then((response) => response.json());
+  if(res.error && res.error.status === 401) {
+    //unauthorized, go back to home page
+    window.location.href = '/';
+    return;
+  }
   console.log(
     'recommendations',
-    recs.tracks.map((track) => track.name + ' - ' + track.artists[0].name)
+    res.tracks.map((track) => track.name + ' - ' + track.artists[0].name)
   );
-  dispatch(setTracks(recs.tracks)); //TODO: map the tracks to only include relevant data.
+  dispatch(setTracks(res.tracks)); //TODO: map the tracks to only include relevant data.
   dispatch(setLoading(false));
 };
