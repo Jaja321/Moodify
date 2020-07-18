@@ -4,7 +4,20 @@ import styled from 'styled-components';
 import { setSelectedGenres } from '../reducer';
 import { getRecommendations } from '../actions';
 
-const genres = ['Rock', 'Metal', 'Classical', 'Alternative', 'Chill', 'Country', 'Electronic', 'Hip-Hop', 'Indie', 'Pop', 'Punk', 'Techno'];
+const genres = [
+  'Rock',
+  'Metal',
+  'Classical',
+  'Alternative',
+  'Chill',
+  'Country',
+  'Electronic',
+  'Hip-Hop',
+  'Indie',
+  'Pop',
+  'Punk',
+  'Techno',
+];
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,9 +36,14 @@ const GenreButton = styled.div`
   justify-content: center;
   margin: 0.5rem;
   cursor: pointer;
-  color: ${({selected}) => selected ? '#203e3f' : 'white'};
-  font-weight: ${({selected}) => selected && 'bold'};
-  background-color: ${({selected}) => selected && 'white'};
+  color: ${({ selected }) => (selected ? '#203e3f' : 'white')};
+  font-weight: ${({ selected }) => selected && 'bold'};
+  background-color: ${({ selected }) => selected && 'white'};
+`;
+
+const NoGenreMessage = styled.div`
+  margin-top: 0.5rem;
+  font-size: 1.5 rem;
 `;
 
 export default () => {
@@ -34,9 +52,9 @@ export default () => {
 
   const buttonClickHandler = (genre) => () => {
     const newSelectedGenres = [...selectedGenres];
-    if(selectedGenres.includes(genre)) {
+    if (selectedGenres.includes(genre)) {
       newSelectedGenres.splice(selectedGenres.indexOf(genre), 1);
-    } else if(selectedGenres.length < 5) {
+    } else if (selectedGenres.length < 5) {
       newSelectedGenres.push(genre);
     } else {
       return;
@@ -52,6 +70,7 @@ export default () => {
           {genre}
         </GenreButton>
       ))}
+      {selectedGenres.length === 0 && <NoGenreMessage>Choose one or more genres</NoGenreMessage>}
     </Wrapper>
   );
 };

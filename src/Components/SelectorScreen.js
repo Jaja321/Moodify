@@ -26,11 +26,6 @@ const TracksWrapper = styled.div`
   min-width: 0;
 `;
 
-const NoGenreMessage = styled.div`
-  margin-top: 3rem;
-  font-size: 1.5rem;
-`;
-
 const getFittingTracks = (tracks, valence, energy) => {
   return tracks
     .map((track) => {
@@ -72,7 +67,7 @@ export default ({ location }) => {
       <MoodSelector />
       <GenreSelector />
 
-      {selectedGenres.length > 0 ? (
+      {selectedGenres.length > 0 && (
         <>
           <TracksWrapper>
             {topTracks.map((trackData, i) => (
@@ -81,8 +76,6 @@ export default ({ location }) => {
           </TracksWrapper>
           <PlaylistButton tracks={topTracks} />
         </>
-      ) : (
-        <NoGenreMessage>Choose one or more genres</NoGenreMessage>
       )}
     </Wrapper>
   );
