@@ -4,7 +4,7 @@ import { useWindowWidth } from '@react-hook/window-size';
 import { useDispatch } from 'react-redux';
 import { setAudioProperties } from '../reducer';
 import { getRecommendations } from '../actions';
-import Emoticon from './Emoticon';
+import MoodIcon from './MoodIcon';
 
 const Square = styled.div`
   height: ${({ size }) => size}px;
@@ -50,7 +50,7 @@ const RightLabel = styled(yLabel)`
   left: ${({ squareSize }) => squareSize + 5}px;
 `;
 
-const EmoticonWrapper = styled.div`
+const MoodIconWrapper = styled.div`
   position: absolute;
   ${({ x, y, squareSize, circleSize }) => `
     top: ${y * squareSize - circleSize / 2}px;
@@ -112,9 +112,9 @@ export default () => {
       <BottomLabel {...labelProps}>Calm</BottomLabel>
       <LeftLabel {...labelProps}>Sad</LeftLabel>
       <RightLabel {...labelProps}>Happy</RightLabel>
-      <EmoticonWrapper x={x} y={y} pointerDown={isPointerDown} squareSize={squareSize} circleSize={circleSize}>
-        <Emoticon size={circleSize} valence={x} energy={1-y}/>
-      </EmoticonWrapper>
+      <MoodIconWrapper x={x} y={y} pointerDown={isPointerDown} squareSize={squareSize} circleSize={circleSize}>
+        <MoodIcon size={circleSize} valence={x} energy={1-y}/>
+      </MoodIconWrapper>
     </Square>
   );
 };
