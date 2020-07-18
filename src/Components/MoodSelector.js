@@ -113,7 +113,7 @@ export default () => {
       <LeftLabel {...labelProps}>Sad</LeftLabel>
       <RightLabel {...labelProps}>Happy</RightLabel>
       <EmoticonWrapper x={x} y={y} pointerDown={isPointerDown} squareSize={squareSize} circleSize={circleSize}>
-        <Emoticon size={circleSize} valence={x} />
+        <Emoticon size={circleSize} valence={x} energy={1-y}/>
       </EmoticonWrapper>
     </Square>
   );
