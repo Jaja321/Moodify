@@ -26,6 +26,17 @@ const TracksWrapper = styled.div`
   min-width: 0;
 `;
 
+const Header = styled.div`
+  height: 3rem;
+  width: 100%;
+`;
+
+const Logo = styled.span`
+  font-family: 'Damion', cursive;
+  padding: .5rem;
+  font-size: 1.5rem;
+`;
+
 const getFittingTracks = (tracks, valence, energy) => {
   return tracks
     .map((track) => {
@@ -39,7 +50,6 @@ const getFittingTracks = (tracks, valence, energy) => {
 
 export default ({ location }) => {
   const dispatch = useDispatch();
-  const loading = useSelector((state) => state.loading);
   const tracks = useSelector((state) => state.tracks);
   const selectedGenres = useSelector((state) => state.selectedGenres);
   const accessToken = useSelector((state) => state.accessToken);
@@ -63,7 +73,9 @@ export default ({ location }) => {
 
   return (
     <Wrapper>
-      <h2>What's your mood?</h2>
+      <Header>
+        <Logo>Moodify</Logo>
+      </Header>
       <MoodSelector />
       <GenreSelector />
 
