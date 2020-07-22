@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import Track from './Track';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTracks } from '../actions';
 import MoodSelector from './MoodSelector';
 import { setAccessToken } from '../reducer';
 import GenreSelector from './GenreSelector';
@@ -26,67 +25,29 @@ const TracksWrapper = styled.div`
   min-width: 0;
 `;
 
-const Header = styled.div`
-  height: 3rem;
-  width: 100%;
-`;
-
-const Logo = styled.span`
-  font-family: 'Damion', cursive;
-  padding: .5rem;
-  font-size: 1.5rem;
-`;
-
-const getFittingTracks = (tracks, valence, energy) => {
-  return tracks
-    .map((track) => {
-      const dist = Math.sqrt(Math.pow(track.valence - valence, 2) + Math.pow(track.energy - energy, 2));
-      return { track, dist };
-    })
-    .sort((a, b) => a.dist - b.dist)
-    .map((obj) => obj.track)
-    .slice(0, 10);
-};
-
 export default ({ location }) => {
   const dispatch = useDispatch();
   const tracks = useSelector((state) => state.tracks);
   const selectedGenres = useSelector((state) => state.selectedGenres);
-  const accessToken = useSelector((state) => state.accessToken);
-
-  //const { valence, energy } = useSelector((state) => state.audioProperties);
 
   useEffect(() => {
-    // if (!location.hash) {
-    //   window.location.replace('/');
-    // }
-    //window.history.replaceState('mood', 'mood', '/mood');
     const accessToken = qs.parse(location.hash, { ignoreQueryPrefix: true }).access_token;
     dispatch(setAccessToken(accessToken));
-
-    //dispatch(getTracks());
   }, [dispatch, location]);
-
-  const topTracks = tracks.slice(0, 12);
-
-  //const fittingTracks = getFittingTracks(tracks, valence, energy);
 
   return (
     <Wrapper>
-      <Header>
-        <Logo>Moodify</Logo>
-      </Header>
       <MoodSelector />
       <GenreSelector />
 
       {selectedGenres.length > 0 && (
         <>
           <TracksWrapper>
-            {topTracks.map((trackData, i) => (
+            {tracks.slice(0, 12).map((trackData, i) => (
               <Track key={'track' + (i + 1)} idx={i + 1} trackData={trackData} />
             ))}
           </TracksWrapper>
-          <PlaylistButton tracks={topTracks} />
+          <PlaylistButton tracks={tracks} />
         </>
       )}
     </Wrapper>
