@@ -6,6 +6,7 @@ import MoodSelector from './MoodSelector';
 import { setAccessToken } from '../reducer';
 import GenreSelector from './GenreSelector';
 import PlaylistButton from './PlaylistButton';
+import TracksGrid from './TracksGrid';
 const qs = require('query-string');
 
 const Wrapper = styled.div`
@@ -18,11 +19,6 @@ const Wrapper = styled.div`
 const TracksWrapper = styled.div`
   width: 90%;
   max-width: 1200px;
-  display: grid;
-  justify-items: center;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 0.5rem;
-  min-width: 0;
 `;
 
 export default ({ location }) => {
@@ -43,9 +39,7 @@ export default ({ location }) => {
       {selectedGenres.length > 0 && (
         <>
           <TracksWrapper>
-            {tracks.slice(0, 12).map((trackData, i) => (
-              <Track key={'track' + (i + 1)} idx={i + 1} trackData={trackData} />
-            ))}
+            <TracksGrid tracks={tracks.slice(0, 12)} />
           </TracksWrapper>
           <PlaylistButton tracks={tracks} />
         </>
