@@ -9,9 +9,12 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const MainTitle = styled.h1`
+const MainTitle = styled.div`
   font-family: 'Damion', cursive;
   font-size: 100px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 2rem;
 `;
 
 const LoginButton = styled.button`
@@ -42,6 +45,10 @@ const LoginButton = styled.button`
   }
 `;
 
+const Subtitle = styled.span`
+  text-align: center;
+`;
+
 const login = () => {
   const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
   let redirectUri;
@@ -58,6 +65,7 @@ const login = () => {
 export default () => (
   <Wrapper>
     <MainTitle>Moodify</MainTitle>
+    <Subtitle>Discover music that fits your mood</Subtitle>
     <LoginButton onClick={() => login()} />
   </Wrapper>
 );
