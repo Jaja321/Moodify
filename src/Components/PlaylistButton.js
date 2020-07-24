@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPlaylistId } from '../reducer';
 import spotifyIcon from '../assets/spotify_icon.png';
+import Button from './Button';
 
 const getHeaders = (accessToken) => ({
   Authorization: 'Bearer ' + accessToken,
@@ -18,7 +19,7 @@ const populatePlaylist = async (playlistId, tracks, accessToken) => {
       uris: tracks.map((track) => track.uri),
     }),
   });
-  //TODO handle error
+  //TODO handle error 
 };
 
 const createPlaylist = async (accessToken, userId) => {
@@ -33,16 +34,6 @@ const createPlaylist = async (accessToken, userId) => {
   //TODO handle error
   return res.id;
 };
-
-const Button = styled.div`
-  margin-top: 1rem;
-  padding: 0.5rem;
-  border: solid 1px white;
-  border-radius: 5px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-`;
 
 const SpotifyIcon = styled.img`
   height: 1.2rem;

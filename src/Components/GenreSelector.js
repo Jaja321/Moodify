@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { setSelectedGenres } from '../reducer';
 import { getRecommendations } from '../actions';
+import Button from './Button';
 
 const genres = [
   'Rock',
@@ -26,24 +27,10 @@ const Wrapper = styled.div`
   justify-content: center;
 `;
 
-const GenreButton = styled.div`
-  height: 2rem;
-  padding: 0 0.5rem;
-  border: 1px solid white;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0.5rem;
-  cursor: pointer;
+const GenreButton = styled(Button)`
   color: ${({ selected }) => (selected ? '#203e3f' : 'white')};
   font-weight: ${({ selected }) => selected && 'bold'};
   background-color: ${({ selected }) => selected && 'white'};
-`;
-
-const NoGenreMessage = styled.div`
-  margin-top: 0.5rem;
-  font-size: 1.5 rem;
 `;
 
 export default () => {
@@ -60,7 +47,7 @@ export default () => {
       return;
     }
     dispatch(setSelectedGenres(newSelectedGenres));
-    dispatch(getRecommendations());
+    //dispatch(getRecommendations());
   };
 
   return (
@@ -70,7 +57,6 @@ export default () => {
           {genre}
         </GenreButton>
       ))}
-      {selectedGenres.length === 0 && <NoGenreMessage>Choose one or more genres</NoGenreMessage>}
     </Wrapper>
   );
 };
