@@ -7,8 +7,8 @@ const setStoreVariable = (key) => (state, action) => {
 const mainSlice = createSlice({
   name: 'main',
   initialState: {
-    tracks: [],
-    loading: true,
+    tracks: null,
+    loading: false,
     accessToken: null,
     audioProperties: {
       valence: 0.5,
