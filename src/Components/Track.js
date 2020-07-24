@@ -3,12 +3,13 @@ import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 
 const Wrapper = styled.div`
-  max-width: 250px;
+  width: 250px;
   display: flex;
   height: 80px;
   align-items: center;
   transition: opacity .5s;
   opacity: ${({ loading }) => (loading ? '0' : '1')};
+  cursor: pointer;
 `;
 
 const TrackDetails = styled.div`
@@ -47,13 +48,24 @@ export default ({ idx, trackData }) => {
   const loading = useSelector(state => state.loading);
   const [imageLoaded, setImageLoaded] = useState(false);
 
-  useEffect(() => setImageLoaded(false), [trackData]);
+  useEffect(() => {
+    setImageLoaded(false);
+
+    //In case image onload is not triggered for whatever reason.
+    const timer = setTimeout(() => setImageLoaded(true), 700);
+    return () => clearTimeout(timer);
+  }, [trackData]);
+
+  const clickHandler = () => {
+    console.log('trackData', trackData);
+    window.open(`https://open.spotify.com/track/${trackData.id}`);
+  }
 
   return (
-    <Wrapper loading={loading || !imageLoaded}>
-      <Thumbnail src={trackData.album.images[2].url} onLoad={() => setImageLoaded(true)}/>
+    <Wrapper loading={loading || !imageLoaded} onClick={clickHandler}>
+      <Thumbnail src={trackData.imageUrl} onLoad={() => setImageLoaded(true)}/>
       <TrackDetails>
-        <ArtistLabel>{trackData.artists[0].name}</ArtistLabel>
+        <ArtistLabel>{trackData.artist}</ArtistLabel>
         <TrackNameLabel>{formatTrackName(trackData.name)}</TrackNameLabel>
       </TrackDetails>
     </Wrapper>
