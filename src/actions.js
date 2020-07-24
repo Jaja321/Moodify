@@ -19,14 +19,19 @@ const getRecommendationsUri = (audioProperties, selectedGenres) => {
 export const getRecommendations = () => async (dispatch, getState) => {
   const { accessToken, selectedGenres, audioProperties } = getState();
   if(selectedGenres.length === 0) {
-    return null;
+    dispatch(setTracks(null));
+    return;
   }
   const headers = getHeaders(accessToken);
   dispatch(setLoading(true));
   const res = await fetch(getRecommendationsUri(audioProperties, selectedGenres), { headers }).then((response) => response.json());
-  if(res.error && res.error.status === 401) {
+  if(!res || (res.error && res.error.status === 401)) {
     //unauthorized, go back to home page
     window.location.href = '/';
+    return;
+  }
+  if(res.error && res.error.status === 429) {
+    setTimeout(() => dispatch(getRecommendations()), res.headers['Retry-After']);
     return;
   }
   const tracks = res.tracks.map(track => ({
