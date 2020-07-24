@@ -1,4 +1,6 @@
-html, body, #root{
+html,
+body,
+#root {
   height: 100%;
   width: 100%;
   cursor: default;
@@ -6,24 +8,22 @@ html, body, #root{
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Montserrat", "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Montserrat', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
+    'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: white;
 }
 
-#bg{
+#bg {
   z-index: -1;
   height: 100%;
   width: 100%;
   position: fixed;
-  background: rgb(14,27,27);
-  background: linear-gradient(318deg, rgba(14,27,27,1) 0%, rgba(45,88,89,1) 100%);
+  background: rgb(14, 27, 27);
+  background: linear-gradient(318deg, rgba(14, 27, 27, 1) 0%, rgba(45, 88, 89, 1) 100%);
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
