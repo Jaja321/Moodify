@@ -10,6 +10,10 @@ const Wrapper = styled.div`
   transition: opacity .5s;
   opacity: ${({ loading }) => (loading ? '0' : '1')};
   cursor: pointer;
+  @media only screen and (max-width: 600px) {
+    width: 160px;
+    height: 65px;
+  }
 `;
 
 const TrackDetails = styled.div`
@@ -23,16 +27,26 @@ const Thumbnail = styled.img`
   height: 45px;
   width: 45px;
   border-radius: 5px;
+  @media only screen and (max-width: 600px) {
+    width: 35px;
+    height: 35px;
+  }
 
 `;
 
 const ArtistLabel = styled.div`
   font-size: 14px;
+  @media only screen and (max-width: 600px) {
+    font-size: 10px;
+  }
 `;
 
 const TrackNameLabel = styled.div`
   font-size: 20px;
   font-weight: bold;
+  @media only screen and (max-width: 600px) {
+    font-size: 15px;
+  }
 `;
 
 const formatTrackName = (trackName) => {
@@ -44,7 +58,7 @@ const formatTrackName = (trackName) => {
   }
 };
 
-export default ({ idx, trackData }) => {
+export default ({ trackData }) => {
   const loading = useSelector(state => state.loading);
   const [imageLoaded, setImageLoaded] = useState(false);
 
