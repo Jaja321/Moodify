@@ -31,7 +31,7 @@ export const getRecommendations = () => async (dispatch, getState) => {
     return;
   }
   if(res.error && res.error.status === 429) {
-    setTimeout(() => dispatch(getRecommendations()), res.headers['Retry-After']);
+    setTimeout(() => dispatch(getRecommendations()), res.headers['Retry-After'] * 1000);
     return;
   }
   const tracks = res.tracks.map(track => ({
