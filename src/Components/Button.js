@@ -14,6 +14,8 @@ const BaseButton = styled.div`
   color: white;
   @media only screen and (max-width: 600px) {
     margin: 0.3rem;
+    height: 1.5rem;
+    font-size: 0.75rem;
   }
 `;
 
