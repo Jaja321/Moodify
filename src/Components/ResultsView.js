@@ -12,12 +12,15 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 `;
 
 const TracksWrapper = styled.div`
+  display: flex;
+  justify-content: center;
   width: 90%;
   max-width: 900px;
-  margin: auto;
+  margin: 1rem;
 `;
 
 const Title = styled.div`
