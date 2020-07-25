@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink= "http://www.w3.org/1999/xlink" width="100px" height="100px">
+  <circle cx="50" cy="50" r="46" style="stroke: white; stroke-width: 7px; fill: none;"/>
+  <path d="M30,33 35,40 40,33" style="stroke:white; stroke-width: 4px; fill:none;"/>
+  <path d="M60,33 65,40 70,33" style="stroke:white; stroke-width: 4px; fill:none;"/>
+  <path d="M35,70
+             A40,70 0 0,1 65,70"
+          style="stroke:white; stroke-width: 6px; fill:none;"/>
+</svg>
