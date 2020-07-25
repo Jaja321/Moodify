@@ -11,8 +11,13 @@ export default ({ location }) => {
   const tracks = useSelector((state) => state.tracks);
   useEffect(() => {
     const accessToken = qs.parse(location.hash, { ignoreQueryPrefix: true }).access_token;
+    if (!accessToken) {
+      window.location.href = '/';
+      return;
+    }
     dispatch(setAccessToken(accessToken));
+    window.history.replaceState('app', 'app', '/app');
   }, [dispatch, location]);
 
-  return tracks ? <ResultsView /> : <SelectorView />;
+  return tracks && tracks.length > 0 ? <ResultsView /> : <SelectorView />;
 };
