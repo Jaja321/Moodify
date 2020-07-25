@@ -6,17 +6,17 @@ import { getRecommendations } from '../actions';
 import Button from './Button';
 
 const genres = [
+  'Pop',
   'Rock',
+  'Hip-Hop',
+  'Electronic',
+  'Indie',
   'Metal',
+  'Punk',
   'Classical',
   'Alternative',
   'Chill',
   'Country',
-  'Electronic',
-  'Hip-Hop',
-  'Indie',
-  'Pop',
-  'Punk',
   'Techno',
 ];
 
