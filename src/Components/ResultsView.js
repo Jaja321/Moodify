@@ -5,6 +5,7 @@ import { setTracks } from '../reducer';
 import PlaylistButton from './PlaylistButton';
 import TracksGrid from './TracksGrid';
 import Button from './Button';
+import { BigTitle } from './Typography';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -23,12 +24,6 @@ const TracksWrapper = styled.div`
   margin: 1rem;
 `;
 
-const Title = styled.div`
-  font-size: 1.5rem;
-  margin: 0.5rem;
-`;
-
-
 const ButtonsRow = styled.div`
   display: flex;
   align-items: space-between;
@@ -40,7 +35,7 @@ export default () => {
 
   return (
     <Wrapper>
-      <Title>Here are some songs you might enjoy:</Title>
+      <BigTitle>Here are some tracks you might enjoy:</BigTitle>
       <TracksWrapper>
         <TracksGrid tracks={tracks.slice(0, 12)} />
       </TracksWrapper>
