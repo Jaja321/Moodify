@@ -1,1 +1,1 @@
-A react app that connects to your spotify account and guesses your mood based on your recently played tracks. 
+A React app that uses Spotify's API to create a playlist of tracks that match your selected "mood" and genres.
