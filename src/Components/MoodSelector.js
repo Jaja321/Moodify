@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { useWindowWidth } from '@react-hook/window-size';
 import { useDispatch } from 'react-redux';
 import { setAudioProperties } from '../reducer';
-import { getRecommendations } from '../actions';
 import MoodIcon from './MoodIcon';
 
 const Square = styled.div`
@@ -11,9 +10,11 @@ const Square = styled.div`
   width: ${({ size }) => size}px;
   border: 1px solid white;
   border-radius: 20px;
-  margin-top: 2rem;
   position: relative;
-  margin-bottom: 36px;
+  margin: 2rem;
+  @media only screen and (max-width: 600px) {
+    margin: 1.5rem;
+  }
 `;
 
 const Label = styled.div`
@@ -23,13 +24,11 @@ const Label = styled.div`
 const xLabel = styled(Label)`
   width: 100%;
   text-align: center;
-  user-select: none;
 `;
 
 const yLabel = styled(Label)`
   position: absolute;
   top: ${({ squareSize }) => squareSize / 2 - 8}px;
-  user-select: none;
 `;
 
 const TopLabel = styled(xLabel)`
@@ -80,7 +79,6 @@ export default () => {
           energy: 1 - y,
         };
         dispatch(setAudioProperties(audioProperties));
-        dispatch(getRecommendations());
       }
     };
     document.addEventListener('pointerup', mouseUpHandler);
