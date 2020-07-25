@@ -8,7 +8,7 @@ export default () => (
     <div id="bg"></div>
     <Router>
       <Route path="/" exact component={Home} />
-      <Route path="/mood/" component={MainScreen} />
+      <Route path="/app/" component={MainScreen} />
     </Router>
   </div>
 );
