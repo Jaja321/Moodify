@@ -32,7 +32,7 @@ export default () => {
   if (!genresSelected) {
     return null;
   } else if (noTracksFound) {
-    return <SmallTitle>No matching tracks found, try another mood or genre</SmallTitle>;
+    return <SmallTitle>No matching tracks found</SmallTitle>;
   } else if (isLoading) {
     return <object data={loaderIcon} type="image/svg+xml"></object>;
   } else {
