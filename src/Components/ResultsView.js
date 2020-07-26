@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { setTracks } from '../reducer';
+import { setTracks, setAudioProperties } from '../reducer';
 import PlaylistButton from './PlaylistButton';
 import TracksGrid from './TracksGrid';
 import Button from './Button';
@@ -41,7 +41,14 @@ export default () => {
       </TracksWrapper>
       <ButtonsRow>
         <PlaylistButton tracks={tracks} />
-        <Button onClick={() => dispatch(setTracks(null))}>Go Again</Button>
+        <Button
+          onClick={() => {
+            dispatch(setTracks(null));
+            dispatch(setAudioProperties({ energy: 0.5, valence: 0.5 }));
+          }}
+        >
+          Go Again
+        </Button>
       </ButtonsRow>
     </Wrapper>
   );
