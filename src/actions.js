@@ -44,13 +44,19 @@ export const getRecommendations = (attempt = 1) => async (dispatch, getState) =>
     dispatch(getRecommendations(attempt + 1));
     return;
   }
-  tracks = res.tracks.map((track) => ({
-    name: track.name,
-    artist: track.artists[0].name,
-    id: track.id,
-    imageUrl: track.album.images[2].url,
-    uri: track.uri,
-  }));
+  tracks = res.tracks.map((track) => {
+    const { name, artists, id, album, uri } = track;
+    const albumCover = album.images[2];
+    const imageUrl = albumCover ? albumCover.url : null;
+
+    return {
+      name,
+      artist: artists[0].name,
+      id,
+      imageUrl,
+      uri,
+    };
+  });
   dispatch(setTracks(tracks));
   dispatch(setLoading(false));
 };
