@@ -15,6 +15,7 @@ const Square = styled.div`
   @media only screen and (max-width: 600px) {
     margin: 1.5rem;
   }
+  touch-action: none;
 `;
 
 const Label = styled.div`
@@ -90,18 +91,24 @@ export default () => {
     fontSize: squareSize / 18.5,
   };
 
+  const moveMoodIcon = (pointerEvent) => {
+    const rect = pointerEvent.currentTarget.getBoundingClientRect();
+    const x = normalizeCoord(pointerEvent.clientX - rect.left, squareSize, circleSize);
+    const y = normalizeCoord(pointerEvent.clientY - rect.top, squareSize, circleSize);
+    setCoords({ x, y });
+  }
+
   return (
     <Square
       onPointerDown={(e) => {
         e.preventDefault();
         setPointerDown(true);
+        moveMoodIcon(e);
       }}
       onPointerMove={(e) => {
+        e.preventDefault();
         if (isPointerDown) {
-          const rect = e.currentTarget.getBoundingClientRect();
-          const x = normalizeCoord(e.clientX - rect.left, squareSize, circleSize);
-          const y = normalizeCoord(e.clientY - rect.top, squareSize, circleSize);
-          setCoords({ x, y });
+          moveMoodIcon(e);
         }
       }}
       size={squareSize}
