@@ -19,14 +19,36 @@ const getRecommendationsUri = (audioProperties, selectedGenres, attempt) => {
   return `${baseRecommendationsUri}?seed_genres=${genreList}&min_energy=${minEnergy}&max_energy=${maxEnergy}&min_valence=${minValence}&max_valence=${maxValence}`;
 };
 
+const getTracksFromSpotify = async (accessToken, genres, audioProperties, attempt = 1) => {
+  const headers = getHeaders(accessToken);
+  const res = await fetch(getRecommendationsUri(audioProperties, genres, attempt), {
+    headers,
+  });
+  if (!res || (res.error && res.status === 401)) {
+    //unauthorized, go back to home page
+    window.location.href = '/';
+    return;
+  }
+  if (res.error && res.status === 429) {
+    const timeoutSeconds = res.headers.get('retry-after');
+    setTimeout(() => dispatch(getRecommendations(attempt)), timeoutSeconds * 1000);
+    return;
+  }
+  let tracks = res.tracks;
+  if (tracks.length < 12 && attempt < 8) {
+    dispatch(getRecommendations(attempt + 1));
+    return;
+  }
+}
+
 export const getRecommendations = (attempt = 1) => async (dispatch, getState) => {
+  dispatch(setLoading(true));
   const { accessToken, selectedGenres, audioProperties } = getState();
   if (selectedGenres.length === 0) {
     dispatch(setTracks(null));
     return;
   }
   const headers = getHeaders(accessToken);
-  dispatch(setLoading(true));
   const res = await fetch(getRecommendationsUri(audioProperties, selectedGenres, attempt), {
     headers,
   }).then((response) => response.json());
