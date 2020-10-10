@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { getRedirectUri, login } from '../apiUtils';
 
 const Wrapper = styled.div`
   height: 100%;
@@ -17,7 +18,7 @@ const MainTitle = styled.div`
   margin-top: 2rem;
 `;
 
-const LoginButton = styled.button`
+const BigButton = styled.button`
   font-family: inherit;
   font-size: 15px;
   border: none;
@@ -27,45 +28,37 @@ const LoginButton = styled.button`
   height: 50px;
   width: 200px;
   cursor: pointer;
-  outline:none;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  outline: none;
+  display: block;
+  margin-bottom: 1rem;
 
   &:hover {
     background-color: #2ad666;
     transition: background-color, 0.5s;
-    &::before {
-      content: "Connect with Spotify";
-    }
   }
+`;
 
-  &::before {
-    content: "Start";
-  }
+const ButtonWrappers = styled.div`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 `;
 
 const Subtitle = styled.span`
   text-align: center;
 `;
 
-const login = () => {
-  const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
-  let redirectUri;
-  if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-    redirectUri = 'http://localhost:3000/app';
-  } else {
-    redirectUri = 'https://moodify.benmiz.com/app';
-  }
-  const scope = 'user-read-recently-played,user-top-read,playlist-modify-public';
-  const authUri = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${redirectUri}&scope=${scope}`;
-  window.location.replace(authUri);
+const redirectToApp = () => {
+  window.location.href = getRedirectUri();
 };
 
 export default () => (
   <Wrapper>
     <MainTitle>Moodify</MainTitle>
     <Subtitle>Discover music that fits your mood</Subtitle>
-    <LoginButton onClick={() => login()} />
+    <ButtonWrappers>
+      <BigButton onClick={redirectToApp}>Start</BigButton>
+      <BigButton onClick={login}>Connect With Spotify</BigButton>
+    </ButtonWrappers>
   </Wrapper>
 );

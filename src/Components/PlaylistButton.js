@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setPlaylistId } from '../reducer';
 import spotifyIcon from '../assets/spotify_icon.png';
 import Button from './Button';
+import { login } from '../apiUtils';
 
 const getHeaders = (accessToken) => ({
   Authorization: 'Bearer ' + accessToken,
@@ -19,7 +20,7 @@ const populatePlaylist = async (playlistId, tracks, accessToken) => {
       uris: tracks.map((track) => track.uri),
     }),
   });
-  //TODO handle error 
+  //TODO handle error
 };
 
 const createPlaylist = async (accessToken, userId) => {
@@ -38,16 +39,20 @@ const createPlaylist = async (accessToken, userId) => {
 const SpotifyIcon = styled.img`
   height: 1.2rem;
   width: 1.2rem;
-  margin-left: .5rem;
+  margin-left: 0.5rem;
 `;
 
 export default ({ tracks }) => {
   const dispatch = useDispatch();
   const accessToken = useSelector((state) => state.accessToken);
   let playlistId = useSelector((state) => state.playlistId);
-  const [userId, setUserId] = useState(null);
 
-  useEffect(() => {
+  const openPlaylist = useCallback(async () => {
+    if (!accessToken) {
+      window.localStorage.setItem('tracks', JSON.stringify(tracks));
+      login();
+      return;
+    }
     const getUserId = async () => {
       const res = await fetch('https://api.spotify.com/v1/me', {
         headers: getHeaders(accessToken),
@@ -55,10 +60,7 @@ export default ({ tracks }) => {
       //TODO: handle error
       return res.id;
     };
-    getUserId().then((id) => setUserId(id));
-  }, [accessToken]);
-
-  const openPlaylist = useCallback(async () => {
+    const userId = await getUserId();
     if (!playlistId) {
       playlistId = await createPlaylist(accessToken, userId);
       dispatch(setPlaylistId(playlistId));
@@ -66,12 +68,19 @@ export default ({ tracks }) => {
     await populatePlaylist(playlistId, tracks, accessToken);
     const playlistUrl = `https://open.spotify.com/playlist/${playlistId}`;
     window.open(playlistUrl);
-  }, [tracks, accessToken, playlistId, dispatch, userId]);
+  }, [tracks, accessToken, playlistId, dispatch]);
+
+  useEffect(() => {
+    if (!!window.localStorage.getItem('tracks')) {
+      window.localStorage.setItem('tracks', null);
+      openPlaylist();
+    }
+  }, [openPlaylist, tracks]);
 
   return (
-    <Button onClick={openPlaylist} disabled={!!userId}>
+    <Button onClick={openPlaylist}>
       Create Playlist
-      <SpotifyIcon src={spotifyIcon} alt="Spotify Logo"/>
+      <SpotifyIcon src={spotifyIcon} alt="Spotify Logo" />
     </Button>
   );
 };
