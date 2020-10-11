@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { getRedirectUri, login } from '../apiUtils';
+import { SmallText } from './Typography';
 
 const Wrapper = styled.div`
   height: 100%;
@@ -42,10 +43,18 @@ const ButtonWrappers = styled.div`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const Subtitle = styled.span`
   text-align: center;
+`;
+
+const ConnectWithSpotifyButton = styled(SmallText)`
+  text-decoration: underline;
+  cursor: pointer;
 `;
 
 const redirectToApp = () => {
@@ -58,7 +67,8 @@ export default () => (
     <Subtitle>Discover music that fits your mood</Subtitle>
     <ButtonWrappers>
       <BigButton onClick={redirectToApp}>Start</BigButton>
-      <BigButton onClick={login}>Connect With Spotify</BigButton>
+      <SmallText>For personalized recommendations,</SmallText>
+      <ConnectWithSpotifyButton onClick={login}>Connect with Spotify</ConnectWithSpotifyButton>
     </ButtonWrappers>
   </Wrapper>
 );
