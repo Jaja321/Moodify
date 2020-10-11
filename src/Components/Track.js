@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   height: 80px;
   align-items: center;
   transition: opacity .5s;
-  opacity: ${({ loading }) => (loading ? '0' : '1')};
+  opacity: ${({ isLoading }) => (isLoading ? '0' : '1')};
   cursor: pointer;
   @media only screen and (max-width: 600px) {
     width: 160px;
@@ -76,7 +76,7 @@ export default ({ trackData }) => {
   }
 
   return (
-    <Wrapper loading={loading || !imageLoaded} onClick={clickHandler}>
+    <Wrapper isLoading={loading || !imageLoaded} onClick={clickHandler}>
       <Thumbnail src={trackData.imageUrl} onLoad={() => setImageLoaded(true)}/>
       <TrackDetails>
         <ArtistLabel>{trackData.artist}</ArtistLabel>
