@@ -39,7 +39,7 @@ export default () => {
     return (
       <>
         <SmallTitle>Ready?</SmallTitle>
-        <DiscoverButton onClick={() => dispatch(getRecommendations())}>Discover</DiscoverButton>
+        <DiscoverButton onClick={() => dispatch(getRecommendations)}>Discover</DiscoverButton>
       </>
     );
   }

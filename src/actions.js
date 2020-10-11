@@ -1,6 +1,8 @@
 import { setTracks, setLoading } from './reducer';
+import { shuffleArray } from './utils';
 
 const baseRecommendationsUri = 'https://api.spotify.com/v1/recommendations';
+const baseServerUri = 'https://us-central1-moodify-c2a16.cloudfunctions.net/getSongs';
 
 const getHeaders = (accessToken) => ({ Authorization: 'Bearer ' + accessToken });
 
@@ -19,32 +21,32 @@ const getRecommendationsUri = (audioProperties, selectedGenres, attempt) => {
   return `${baseRecommendationsUri}?seed_genres=${genreList}&min_energy=${minEnergy}&max_energy=${maxEnergy}&min_valence=${minValence}&max_valence=${maxValence}`;
 };
 
-export const getRecommendations = (attempt = 1) => async (dispatch, getState) => {
-  const { accessToken, selectedGenres, audioProperties } = getState();
-  if (selectedGenres.length === 0) {
-    dispatch(setTracks(null));
-    return;
-  }
+const getServerUri = (genres, valence, energy) =>
+  `${baseServerUri}?genres=${genres}&valence=${valence}&energy=${energy}`;
+
+const getTracksFromSpotify = async (accessToken, genres, audioProperties, attempt = 1) => {
   const headers = getHeaders(accessToken);
-  dispatch(setLoading(true));
-  const res = await fetch(getRecommendationsUri(audioProperties, selectedGenres, attempt), {
+  const res = await fetch(getRecommendationsUri(audioProperties, genres, attempt), {
     headers,
-  }).then((response) => response.json());
-  if (!res || (res.error && res.error.status === 401)) {
+  });
+  if (!res || (res.error && res.status === 401)) {
     //unauthorized, go back to home page
     window.location.href = '/';
     return;
   }
-  if (res.error && res.error.status === 429) {
-    setTimeout(() => dispatch(getRecommendations(attempt)), res.headers['Retry-After'] * 1000);
+  if (res.error && res.status === 429) {
+    const timeoutSeconds = res.headers.get('retry-after');
+    setTimeout(
+      async () => await getTracksFromSpotify(accessToken, genres, audioProperties, attempt),
+      timeoutSeconds * 1000
+    );
     return;
   }
-  let tracks = res.tracks;
+  const tracks = (await res.json()).tracks;
   if (tracks.length < 12 && attempt < 8) {
-    dispatch(getRecommendations(attempt + 1));
-    return;
+    return await getTracksFromSpotify(accessToken, genres, audioProperties, attempt + 1);
   }
-  tracks = res.tracks.map((track) => {
+  return tracks.map((track) => {
     const { name, artists, id, album, uri } = track;
     const albumCover = album.images[2];
     const imageUrl = albumCover ? albumCover.url : null;
@@ -57,6 +59,33 @@ export const getRecommendations = (attempt = 1) => async (dispatch, getState) =>
       uri,
     };
   });
+};
+
+const getTracksFromServer = async (genres, audioProperties) => {
+  const { valence, energy } = audioProperties;
+  const res = await fetch(getServerUri(genres.join(','), valence, energy)).then((res) => res.json());
+  if (!res || res.error) {
+    //unauthorized, go back to home page
+    window.location.href = '/';
+    return;
+  }
+  return res;
+};
+
+export const getRecommendations = async (dispatch, getState) => {
+  dispatch(setLoading(true));
+  const { accessToken, selectedGenres, audioProperties } = getState();
+  if (selectedGenres.length === 0) {
+    dispatch(setTracks(null));
+    return;
+  }
+  let tracks;
+  if (accessToken) {
+    tracks = await getTracksFromSpotify(accessToken, selectedGenres, audioProperties);
+  } else {
+    tracks = await getTracksFromServer(selectedGenres, audioProperties);
+  }
+  shuffleArray(tracks);
   dispatch(setTracks(tracks));
   dispatch(setLoading(false));
 };

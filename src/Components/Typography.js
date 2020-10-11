@@ -1,5 +1,10 @@
 import styled from 'styled-components';
 
+export const SmallText = styled.div`
+  font-size: .8rem;
+  text-align: center;
+`;
+
 export const Title = styled.div`
   font-size: 1.5rem;
   margin: 0.5rem;
