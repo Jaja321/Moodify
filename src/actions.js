@@ -1,7 +1,8 @@
 import { setTracks, setLoading } from './reducer';
+import { shuffleArray } from './utils';
 
 const baseRecommendationsUri = 'https://api.spotify.com/v1/recommendations';
-const baseServerUri = 'http://localhost:5001/moodify-c2a16/us-central1/getSongs';
+const baseServerUri = 'https://us-central1-moodify-c2a16.cloudfunctions.net/getSongs';
 
 const getHeaders = (accessToken) => ({ Authorization: 'Bearer ' + accessToken });
 
@@ -84,6 +85,7 @@ export const getRecommendations = async (dispatch, getState) => {
   } else {
     tracks = await getTracksFromServer(selectedGenres, audioProperties);
   }
+  shuffleArray(tracks);
   dispatch(setTracks(tracks));
   dispatch(setLoading(false));
 };
