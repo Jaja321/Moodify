@@ -11,10 +11,6 @@ export default ({ location }) => {
   const tracks = useSelector((state) => state.tracks);
   useEffect(() => {
     const accessToken = qs.parse(location.hash, { ignoreQueryPrefix: true }).access_token;
-    // if (!accessToken) {
-    //   window.location.href = '/';
-    //   return;
-    // }
     dispatch(setAccessToken(accessToken));
     const tracks = JSON.parse(window.localStorage.getItem('tracks'));
     if (tracks) {
