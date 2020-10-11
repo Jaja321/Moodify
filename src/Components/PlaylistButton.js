@@ -71,11 +71,11 @@ export default ({ tracks }) => {
   }, [tracks, accessToken, playlistId, dispatch]);
 
   useEffect(() => {
-    if (!!window.localStorage.getItem('tracks')) {
-      window.localStorage.setItem('tracks', null);
+    if (window.localStorage.getItem('tracks')) {
+      window.localStorage.removeItem('tracks');
       openPlaylist();
     }
-  }, [openPlaylist, tracks]);
+  }, [openPlaylist]);
 
   return (
     <Button onClick={openPlaylist}>
